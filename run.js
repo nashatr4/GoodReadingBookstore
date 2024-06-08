@@ -8,18 +8,10 @@ const port = 3300;
 
 app.use(bodyParser.json());
 
-// Koneksi ke database menggunakan pool
-const pool = new Pool({
-    host: "localhost",
-    user: "postgres",
-    port: 5432,
-    password: "postgreNashatra",
-    database: "postgres"
-});
 
 // Endpoint untuk mendapatkan semua data dari tabel Customers
 app.get('/customers', (req, res) => {
-    pool.query('SELECT * FROM public."Customers"', (err, result) => {
+    client.query('SELECT * FROM public."Customers"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -31,7 +23,7 @@ app.get('/customers', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Books
 app.get('/books', (req, res) => {
-    pool.query('SELECT * FROM public."Books"', (err, result) => {
+    client.query('SELECT * FROM public."Books"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -43,7 +35,7 @@ app.get('/books', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Inventory
 app.get('/inventory', (req, res) => {
-    pool.query('SELECT * FROM public."Inventory"', (err, result) => {
+    client.query('SELECT * FROM public."Inventory"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -55,7 +47,7 @@ app.get('/inventory', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Author
 app.get('/authors', (req, res) => {
-    pool.query('SELECT * FROM public."Author"', (err, result) => {
+    client.query('SELECT * FROM public."Author"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -67,7 +59,7 @@ app.get('/authors', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Staff
 app.get('/staff', (req, res) => {
-    pool.query('SELECT * FROM public."Staff"', (err, result) => {
+    client.query('SELECT * FROM public."Staff"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -79,7 +71,7 @@ app.get('/staff', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Reviews
 app.get('/reviews', (req, res) => {
-    pool.query('SELECT * FROM public."Reviews"', (err, result) => {
+    client.query('SELECT * FROM public."Reviews"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -91,7 +83,7 @@ app.get('/reviews', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel WishlistItems
 app.get('/wishlist-items', (req, res) => {
-    pool.query('SELECT * FROM public."WishlistItems"', (err, result) => {
+    client.query('SELECT * FROM public."WishlistItems"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -103,7 +95,7 @@ app.get('/wishlist-items', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Wishlists
 app.get('/wishlists', (req, res) => {
-    pool.query('SELECT * FROM public."Wishlists"', (err, result) => {
+    client.query('SELECT * FROM public."Wishlists"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -115,7 +107,7 @@ app.get('/wishlists', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Stores
 app.get('/stores', (req, res) => {
-    pool.query('SELECT * FROM public."Stores"', (err, result) => {
+    client.query('SELECT * FROM public."Stores"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -127,7 +119,7 @@ app.get('/stores', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Address
 app.get('/address', (req, res) => {
-    pool.query('SELECT * FROM public."Address"', (err, result) => {
+    client.query('SELECT * FROM public."Address"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -139,7 +131,7 @@ app.get('/address', (req, res) => {
 
 // Endpoint untuk mendapatkan semua data dari tabel Sales
 app.get('/sales', (req, res) => {
-    pool.query('SELECT * FROM public."Sales"', (err, result) => {
+    client.query('SELECT * FROM public."Sales"', (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -164,7 +156,7 @@ app.post('/sql-builder', (req, res) => {
         query += ` WHERE ${conditionStrings.join(' AND ')}`;
     }
 
-    pool.query(query, (err, result) => {
+    client.query(query, (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -178,7 +170,7 @@ app.post('/sql-builder', (req, res) => {
 app.post('/dml', (req, res) => {
     const { query } = req.body;
 
-    pool.query(query, (err, result) => {
+    client.query(query, (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -197,7 +189,7 @@ app.post('/dml', (req, res) => {
 app.delete('/dml', (req, res) => {
     const { query } = req.body;
 
-    pool.query(query, (err, result) => {
+    client.query(query, (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -211,7 +203,7 @@ app.delete('/dml', (req, res) => {
 app.put('/dml', (req, res) => {
     const { query } = req.body;
 
-    pool.query(query, (err, result) => {
+    client.query(query, (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -225,7 +217,7 @@ app.put('/dml', (req, res) => {
 app.patch('/dml', (req, res) => {
     const { query } = req.body;
 
-    pool.query(query, (err, result) => {
+    client.query(query, (err, result) => {
         if (err) {
             console.error(err.message);
             res.status(500).send(err.message);
@@ -241,7 +233,7 @@ app.patch('/dml', (req, res) => {
 app.post('/tcl', async (req, res) => {
     const { queries } = req.body;
 
-    const client = await pool.connect();
+    const client = await client.connect();
     try {
         await client.query('BEGIN');
         for (let query of queries) {
